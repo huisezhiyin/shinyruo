@@ -1,0 +1,8 @@
+django
+gunicorn
+redis
+django-redis
+celery
+PyMySQL
+djangorestframework
+requests
