@@ -8,9 +8,7 @@ RUN apt-get update && apt-get install -y nginx
 COPY ./pip.conf /root/.pip/pip.conf
 COPY . ${WWW_WEB_DIR}/
 
+COPY ./entrypoint.sh entrypoint.sh
+RUN pip install -r ${WWW_WEB_DIR}/requirements.txt -U && chmod +x /entrypoint.sh
 
-RUN pip install -r ${WWW_WEB_DIR}/requirements.txt -U
-
-WORKDIR ${WWW_WEB_DIR}
-
-CMD ["/usr/local/bin/python3","manage.py","runserver"]
+ENTRYPOINT ["/entrypoint.sh"]
