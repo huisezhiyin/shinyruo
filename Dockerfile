@@ -8,3 +8,5 @@ COPY . ${WWW_WEB_DIR}/
 
 RUN apt-get update && apt-get install -y nginx
 RUN pip install -r ${WWW_WEB_DIR}/requirements.txt -U
+RUN cd ${WWW_WEB_DIR}
+CMD ["python manage.py runserver"]
