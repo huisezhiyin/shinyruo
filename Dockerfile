@@ -11,4 +11,4 @@ COPY . ${WWW_WEB_DIR}/
 
 RUN pip install -r ${WWW_WEB_DIR}/requirements.txt -U
 
-CMD ["python ${WWW_WEB_DIR}/manage.py runserver"]
+CMD ["/usr/local/bin/python3 ${WWW_WEB_DIR}/manage.py runserver"]
