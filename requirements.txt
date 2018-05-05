@@ -7,5 +7,4 @@ PyMySQL
 mysqlclient
 djangorestframework
 django-filter
-pycrypto
 requests
