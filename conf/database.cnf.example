@@ -1,0 +1,7 @@
+# my.cnf
+[client]
+host = 172.17.0.1:3306
+database = nero
+user = root
+password = xxxxxxx
+default-character-set = utf8
