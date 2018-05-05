@@ -6,4 +6,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^$', views.hello),
     path('admin/', admin.site.urls),
+    url(r'^', include('app_ex.user_ex.urls')),
+    url(r'^', include('app_ex.work_ex.urls')),
 ]
