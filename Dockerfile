@@ -3,7 +3,7 @@ ENV WWW_WEB_DIR="/wwwroot/www"
 MAINTAINER grey chen "837364695@qq.com"
 
 COPY ./sources.list /etc/apt/sources.list
-RUN apt-get update && apt-get install -y nginx
+RUN apt-get update && apt-get install -y nginx libmysqlclient-dev python3-dev
 
 COPY ./pip.conf /root/.pip/pip.conf
 COPY . ${WWW_WEB_DIR}/
