@@ -12,3 +12,5 @@ COPY ./entrypoint.sh entrypoint.sh
 RUN pip install -r ${WWW_WEB_DIR}/requirements.txt -U && chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+#docker run -p 80:8000 -d [images id]
