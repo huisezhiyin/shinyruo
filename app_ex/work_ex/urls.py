@@ -3,3 +3,4 @@ from app_ex.work_ex import views
 
 router = DefaultRouter()
 router.register(r'lottery', views.LotteryViewSet, base_name="lottery")
+urlpatterns = router.urls
