@@ -4,6 +4,8 @@ redis
 django-redis
 celery
 PyMySQL
+mysqlclient
 djangorestframework
+django-filter
+pycrypto
 requests
-djangorestframework
