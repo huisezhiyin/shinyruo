@@ -1,5 +1,6 @@
 from app_ex.user_ex.models import User
 from django.db import models
+from django.conf import settings
 
 
 class Lottery(models.Model):
@@ -17,7 +18,7 @@ class Prize(models.Model):
     # 奖品
     name = models.CharField(max_length=225)
     number = models.IntegerField()
-    winner = models.ManyToManyField(User)
+    winner = models.ManyToManyField(settings.AUTH_USER_MODEL)
     lottery = models.ForeignKey(Lottery, on_delete=models.CASCADE)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
