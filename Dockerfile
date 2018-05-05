@@ -15,6 +15,6 @@ COPY . ${WWW_WEB_DIR}/
 COPY ./entrypoint.sh entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-#ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 #docker run -p 80:8000 -d [images id]
