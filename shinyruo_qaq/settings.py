@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app_ex.user_ex',
     'app_ex.work_ex',
+    'app_ex.bulin',
 ]
 
 REST_FRAMEWORK = {
