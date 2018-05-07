@@ -5,5 +5,5 @@ urlpatterns = [
     url(r'^$', views.hello),
     url(r'^', include('app_ex.user_ex.urls')),
     url(r'^', include('app_ex.work_ex.urls')),
-    url(r'^',include('app_ex.bulin.urls')),
+    url(r'^', include('app_ex.bulin.urls')),
 ]

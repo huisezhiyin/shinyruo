@@ -71,3 +71,10 @@ class Token(models.Model):
 
     def __str__(self):
         return self.key
+
+
+class UserReceiptProfile(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    remark = models.TextField(default="")
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now=True)
