@@ -6,3 +6,5 @@ from app_ex.work_ex.models import Lottery, Prize
 from django.http import HttpResponse
 
 
+class BulinViewSet(GenericViewSet):
+    pass
