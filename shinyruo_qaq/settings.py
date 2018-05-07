@@ -13,7 +13,7 @@ ALLOWED_HOSTS = ['*']
 #############################
 QQ_TOKEN_URL = "https://graph.qq.com/oauth2.0/token"
 QQ_OPEN_ID_URL = "https://graph.qq.com/oauth2.0/me"
-# https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=1106888808&redirect_uri=http%3a%2f%2f45.40.196.121%2fusers%2fqq_login%2f&state=qq
+QQ_INFO_URL = "https://graph.qq.com/user/get_user_info"
 
 with open("conf/qq_app_info.cnf") as f:
     QQ_APP_CONF = json.load(f)

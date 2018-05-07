@@ -1,10 +1,41 @@
 from django.contrib.auth.models import AbstractUser, Group
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import BaseUserManager
 from django.db import models
 from django.conf import settings
 import datetime
 import binascii
 import os
+
+
+class UserManager(BaseUserManager):
+    def create_user(self, nickname, sex=None, avatar_url=None, username=None, password=None):
+        if not username:
+            username = binascii.hexlify(os.urandom(20)).decode()
+        if not sex:
+            sex = self.model.OTHER
+        if not avatar_url:
+            avatar_url = ""
+        if password:
+            user = self.model(
+                username=username,
+                nickname=nickname,
+                sex=sex,
+                avatar_url=avatar_url,
+            )
+            user.set_password(password)
+            user.save()
+        else:
+            user = self.model(
+                username=username,
+                nickname=nickname,
+                sex=sex,
+                avatar_url=avatar_url,
+                password="{0}".format(binascii.hexlify(os.urandom(20)).decode()),
+            )
+        user.save(using=self._db)
+
+        return user
 
 
 class User(AbstractUser):
@@ -23,6 +54,7 @@ class User(AbstractUser):
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
     mask = models.BooleanField(default=True)
+    objects = UserManager()
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
