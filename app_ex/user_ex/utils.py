@@ -1,9 +1,13 @@
 from rest_framework.authentication import BaseAuthentication
 from app_ex.user_ex.models import Token, User
 from rest_framework import exceptions
+from django.conf import settings
 import datetime
 import binascii
+import requests
+import json
 import os
+import re
 
 
 # 通过用户获取token的函数
@@ -47,3 +51,30 @@ class TokenAuthentication(BaseAuthentication):
             raise exceptions.AuthenticationFailed('No such user')
 
         return (token.user, key)
+
+
+class QQLogin(object):
+    qq_token_url = settings.QQ_TOKEN_URL
+    qq_open_id_url = settings.QQ_OPEN_ID_URL
+    app_conf = settings.QQ_APP_CONF
+    # todo:此处到时候需要改成域名
+    token_callback = "http://45.40.196.121/users/qq_login/"
+    grant_type = "authorization_code"
+
+    def token(self, ac_code):
+        app_id = self.app_conf["app_id"]
+        app_key = self.app_conf["app_key"]
+        url_token = "{0}/token?client_id={1}&client_secret={2}&code={3}&grant_type={4}&redirect_uri={5}".format(
+            self.qq_token_url, app_id, app_key, ac_code, self.grant_type, self.token_callback, )
+        response_token = requests.get(url_token).content
+        response_dict = dict(i.split("=") for i in response_token.split("&"))
+        return response_dict
+
+    def open_id(self, ac_code):
+        token_dict = self.token(ac_code)
+        access_token = token_dict["access_token"]
+        url_me = "{0}/?access_token={1}".format(self.qq_open_id_url, access_token)
+        response_open_id = requests.get(url_me).content
+        open_id_dict = json.loads(re.search(r'callback\((.+?)\)', response_open_id).group(1))
+        open_id = open_id_dict["openid"]
+        return open_id

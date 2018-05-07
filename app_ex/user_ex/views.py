@@ -5,7 +5,11 @@ from rest_framework.response import Response
 
 
 class UserViewSet(GenericViewSet):
-    pass
+    @action(detail=False)
+    def qq_login(self, request, *args, **kwargs):
+        ac_code = request.GET.get("code", None)
+        if not ac_code:
+            return Response(status=504)
 
 
 class UserHtmlViewSet(GenericViewSet):
@@ -17,4 +21,4 @@ class UserHtmlViewSet(GenericViewSet):
 
     @action(detail=False)
     def user_login(self, request, *args, **kwargs):
-        pass
+        return Response(template_name="user_login.html")
