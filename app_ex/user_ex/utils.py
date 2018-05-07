@@ -53,19 +53,19 @@ class TokenAuthentication(BaseAuthentication):
         return (token.user, key)
 
 
-class QQLogin(object):
+class QQOauth(object):
     qq_token_url = settings.QQ_TOKEN_URL
     qq_open_id_url = settings.QQ_OPEN_ID_URL
     app_conf = settings.QQ_APP_CONF
+    app_id = app_conf["app_id"]
+    app_key = app_conf["app_key"]
     # todo:此处到时候需要改成域名
     token_callback = "http://45.40.196.121/users/qq_login/"
     grant_type = "authorization_code"
 
     def token(self, ac_code):
-        app_id = self.app_conf["app_id"]
-        app_key = self.app_conf["app_key"]
         url_token = "{0}/token?client_id={1}&client_secret={2}&code={3}&grant_type={4}&redirect_uri={5}".format(
-            self.qq_token_url, app_id, app_key, ac_code, self.grant_type, self.token_callback, )
+            self.qq_token_url, self.app_id, self.app_key, ac_code, self.grant_type, self.token_callback, )
         response_token = requests.get(url_token).content
         response_dict = dict(i.split("=") for i in response_token.split("&"))
         return response_dict
