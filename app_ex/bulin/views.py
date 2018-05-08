@@ -8,3 +8,7 @@ from django.http import HttpResponse
 
 class BulinViewSet(GenericViewSet):
     pass
+
+# 创建抽奖
+# 点击抽奖
+# 查看填写的个人信息

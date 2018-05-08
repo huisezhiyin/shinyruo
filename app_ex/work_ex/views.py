@@ -7,7 +7,14 @@ from app_ex.work_ex.models import Lottery, Prize
 from django.http import HttpResponse
 
 
-# Create your views here.
+class LotteryHtmlViewSet(GenericViewSet):
+    renderer_classes = (TemplateHTMLRenderer,)
+
+    @action(detail=False)
+    def home(self, request, *args, **kwargs):
+        return Response(template_name="index1.html")
+
+
 def hello(request):
     return HttpResponse("hello shiny_ruo")
 
@@ -15,11 +22,3 @@ def hello(request):
 class LotteryViewSet(GenericViewSet, mixins.ListModelMixin):
     queryset = Lottery.objects.filter(ended=False)
     pagination_class = PageNumberPagination
-
-
-class LotteryHtmlViewSet(GenericViewSet):
-    renderer_classes = (TemplateHTMLRenderer,)
-
-    @action(detail=False)
-    def home(self, request, *args, **kwargs):
-        return Response(template_name="index1.html")

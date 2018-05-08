@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
-<img id="qqLoginBtn" src="http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_5.png"
-     href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=1106888808&redirect_uri=http%3a%2f%2f45.40.196.121%2fusers%2fqq_login%2f&state=qq">
+<div id="app">
+    <img v-on:click="jump" id="qqLoginBtn"
+         src="http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_5.png">
+</div>
 </body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {},
+        methods: {
+            jump: function (event) {
+                window.open("https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=1106888808&redirect_uri=http%3a%2f%2f45.40.196.121%2fusers%2fqq_login%2f&state=qq")
+            }
+        }
+    })
+
+</script>
 </html>

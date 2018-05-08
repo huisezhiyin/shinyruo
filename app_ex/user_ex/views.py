@@ -8,6 +8,18 @@ import binascii
 import os
 
 
+class UserHtmlViewSet(GenericViewSet):
+    renderer_classes = (TemplateHTMLRenderer,)
+
+    @action(detail=False)
+    def home(self, request, *args, **kwargs):
+        return Response(template_name="index1.html")
+
+    @action(detail=False)
+    def user_login(self, request, *args, **kwargs):
+        return Response(template_name="user_login.html")
+
+
 class UserViewSet(GenericViewSet):
     qq_oauth = QQOAuth()
 
@@ -19,15 +31,19 @@ class UserViewSet(GenericViewSet):
         open_id_dict = self.qq_oauth.open_id(ac_code)
         open_id = open_id_dict.get("open_id")
         access_token = open_id_dict.get("access_token")
+        user_info = self.qq_oauth.user_info(access_token, open_id)
+        head_image_url = user_info.get("figureurl_qq_2") or user_info.get("figureurl_qq_1")
+        sex = user_info.get("gender")
+        nickname = user_info.get("nickname")
         # todo:此处进行用户创建/登录
         try:
             oauth = OAuth.objects.get(platform=OAuth.QQ, open_id=open_id)
             user = oauth.user
+            user.nickname = nickname
+            user.sex = sex
+            user.avatar_url = head_image_url
+            user.save()
         except OAuth.DoesNotExist:
-            user_info = self.qq_oauth.user_info(access_token, open_id)
-            head_image_url = user_info.get("figureurl_qq_2") or user_info.get("figureurl_qq_1")
-            sex = user_info.get("gender")
-            nickname = user_info.get("nickname")
             user = User.objects.create_user(
                 nickname=nickname,
                 sex=sex,
@@ -40,15 +56,3 @@ class UserViewSet(GenericViewSet):
                 access_token=binascii.hexlify(os.urandom(20)).decode()
             )
         return Response({"key": user_token(user)})
-
-
-class UserHtmlViewSet(GenericViewSet):
-    renderer_classes = (TemplateHTMLRenderer,)
-
-    @action(detail=False)
-    def home(self, request, *args, **kwargs):
-        return Response(template_name="index1.html")
-
-    @action(detail=False)
-    def user_login(self, request, *args, **kwargs):
-        return Response(template_name="user_login.html")
