@@ -56,3 +56,7 @@ class UserViewSet(GenericViewSet):
                 access_token=binascii.hexlify(os.urandom(20)).decode()
             )
         return Response({"key": user_token(user)})
+
+    @action(methods=["GET","POST"])
+    def qq_callback(self, request, *args, **kwargs):
+        return Response(200)
