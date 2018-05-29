@@ -11,11 +11,11 @@ import os
 class UserHtmlViewSet(GenericViewSet):
     renderer_classes = (TemplateHTMLRenderer,)
 
-    @action(detail=False)
+    @action(methods=["GET"], detail=False)
     def home(self, request, *args, **kwargs):
         return Response(template_name="index1.html")
 
-    @action(detail=False)
+    @action(methods=["GET"], detail=False)
     def user_login(self, request, *args, **kwargs):
         return Response(template_name="user_login.html")
 
@@ -23,7 +23,7 @@ class UserHtmlViewSet(GenericViewSet):
 class UserViewSet(GenericViewSet):
     qq_oauth = QQOAuth()
 
-    @action(detail=False)
+    @action(methods=["POST"], detail=False)
     def qq_login(self, request, *args, **kwargs):
         ac_code = request.GET.get("code", None)
         if not ac_code:
@@ -57,6 +57,6 @@ class UserViewSet(GenericViewSet):
             )
         return Response({"key": user_token(user)})
 
-    @action(methods=["GET","POST"])
+    @action(methods=["GET", "POST"], detail=False)
     def qq_callback(self, request, *args, **kwargs):
         return Response(200)
