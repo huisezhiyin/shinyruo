@@ -61,14 +61,17 @@ class QQOAuth(object):
     app_id = app_conf["app_id"]
     app_key = app_conf["app_key"]
     # todo:此处到时候需要改成域名
-    token_callback = "http://45.40.196.121/users/qq_login/"
+    token_callback = "https://shinyruoqaq.cn/users/qq_callback"
     grant_type = "authorization_code"
 
     def token(self, ac_code):
         url_token = "{0}?client_id={1}&client_secret={2}&code={3}&grant_type={4}&redirect_uri={5}".format(
             self.qq_token_url, self.app_id, self.app_key, ac_code, self.grant_type, self.token_callback, )
         response_token = requests.get(url_token).content
-        response_dict = dict(i.split("=") for i in response_token.split("&"))
+        try:
+            response_dict = dict(i.split("=") for i in response_token.split("&"))
+        except:
+            raise response_token
         access_token = response_dict["access_token"]
         return access_token
 
