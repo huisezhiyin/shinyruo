@@ -6,6 +6,7 @@ from django.http.response import HttpResponseRedirect
 from app_ex.user_ex.models import OAuth, User
 from app_ex.user_ex.utils import QQOAuth
 import binascii
+import time
 import os
 
 
@@ -29,7 +30,8 @@ class UserViewSet(GenericViewSet):
         callback_encode = "https%3a%2f%2fshinyruoqaq.cn%2fusers%2fqq_callback"
         url_base = "https://graph.qq.com/oauth2.0/authorize"
         app_id = self.qq_oauth.app_id
-        url = f"{url_base}?response_type=code&client_id={app_id}&redirect_uri={callback_encode}"
+        state = "qq_{0}".format(int(time.time() * 1000))
+        url = f"{url_base}?response_type=code&client_id={app_id}&redirect_uri={callback_encode}&state={state}"
         return HttpResponseRedirect(redirect_to=url)
 
     @action(methods=["GET", "POST"], detail=False)
