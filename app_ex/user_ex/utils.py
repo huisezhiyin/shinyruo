@@ -68,10 +68,9 @@ class QQOAuth(object):
         url_token = "{0}?client_id={1}&client_secret={2}&code={3}&grant_type={4}&redirect_uri={5}".format(
             self.qq_token_url, self.app_id, self.app_key, ac_code, self.grant_type, self.token_callback, )
         response_token = requests.get(url_token).content
-        try:
-            response_dict = dict(i.split("=") for i in response_token.split("&"))
-        except:
-            raise exceptions.APIException(response_token)
+        if isinstance(response_token, bytes):
+            response_token = response_token.decode()
+        response_dict = dict(i.split("=") for i in response_token.split("&"))
         access_token = response_dict["access_token"]
         return access_token
 
