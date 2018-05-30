@@ -67,9 +67,7 @@ class QQOAuth(object):
     def token(self, ac_code):
         url_token = "{0}?client_id={1}&client_secret={2}&code={3}&grant_type={4}&redirect_uri={5}".format(
             self.qq_token_url, self.app_id, self.app_key, ac_code, self.grant_type, self.token_callback, )
-        response_token = requests.get(url_token).content
-        if isinstance(response_token, bytes):
-            response_token = response_token.decode()
+        response_token = requests.get(url_token).text
         response_dict = dict(i.split("=") for i in response_token.split("&"))
         access_token = response_dict["access_token"]
         return access_token
@@ -77,7 +75,7 @@ class QQOAuth(object):
     def open_id(self, ac_code):
         access_token = self.token(ac_code)
         url_me = "{0}?access_token={1}".format(self.qq_open_id_url, access_token)
-        response_open_id = requests.get(url_me).content
+        response_open_id = requests.get(url_me).text
         open_id_dict = json.loads(re.search(r'callback\((.+?)\)', response_open_id).group(1))
         open_id = open_id_dict["openid"]
         return {"open_id": open_id, "access_token": access_token}
