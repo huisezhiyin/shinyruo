@@ -3,7 +3,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from app_ex.user_ex.models import OAuth, User
-from app_ex.user_ex.utils import QQOAuth, user_token
+from app_ex.user_ex.utils import QQOAuth
 import binascii
 import os
 
@@ -33,6 +33,7 @@ class UserViewSet(GenericViewSet):
 
     @action(methods=["GET", "POST"], detail=False)
     def qq_callback(self, request, *args, **kwargs):
+        return Response(status=200)
         ac_code = request.GET.get("code", None)
         if not ac_code:
             return Response(status=504)
