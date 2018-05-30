@@ -59,4 +59,4 @@ class UserViewSet(GenericViewSet):
 
     @action(methods=["GET", "POST"], detail=False)
     def qq_callback(self, request, *args, **kwargs):
-        return Response(200)
+        return Response(status=200)
