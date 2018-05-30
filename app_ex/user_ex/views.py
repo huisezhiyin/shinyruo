@@ -28,6 +28,14 @@ class UserViewSet(GenericViewSet):
         ac_code = request.GET.get("code", None)
         if not ac_code:
             return Response(status=504)
+        user = self.__qq_login__(ac_code)
+        return Response({"id": user.id})
+
+    @action(methods=["GET", "POST"], detail=False)
+    def qq_callback(self, request, *args, **kwargs):
+        return Response({"code": 0, "msg": "success"})
+
+    def __qq_login__(self, ac_code):
         open_id_dict = self.qq_oauth.open_id(ac_code)
         open_id = open_id_dict.get("open_id")
         access_token = open_id_dict.get("access_token")
@@ -35,7 +43,6 @@ class UserViewSet(GenericViewSet):
         head_image_url = user_info.get("figureurl_qq_2") or user_info.get("figureurl_qq_1")
         sex = user_info.get("gender")
         nickname = user_info.get("nickname")
-        # todo:此处进行用户创建/登录
         try:
             oauth = OAuth.objects.get(platform=OAuth.QQ, open_id=open_id)
             user = oauth.user
@@ -55,8 +62,4 @@ class UserViewSet(GenericViewSet):
                 open_id=open_id,
                 access_token=binascii.hexlify(os.urandom(20)).decode()
             )
-        return Response({"key": user_token(user)})
-
-    @action(methods=["GET", "POST"], detail=False)
-    def qq_callback(self, request, *args, **kwargs):
-        return Response(status=200)
+        return user
