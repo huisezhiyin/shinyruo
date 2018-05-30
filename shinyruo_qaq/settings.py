@@ -19,7 +19,8 @@ with open(f"{BASE_DIR}/conf/qq_app_info.cnf") as f:
     QQ_APP_CONF = json.load(f)
 
 #############################
-# Application definition
+
+AUTH_USER_MODEL = 'user_ex.User'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -121,4 +122,3 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # CELERY_BROKER_URL = ""
-AUTH_USER_MODEL = "user_ex.User"
