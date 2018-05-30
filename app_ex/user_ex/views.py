@@ -42,7 +42,7 @@ class UserViewSet(GenericViewSet):
             return Response(status=504)
         user = self.__qq_login__(ac_code)
         login(request, user)
-        return Response(data={"code": 0, "msg": "success"})
+        return HttpResponseRedirect(redirect_to="/lottery_home/home/")
 
     def __qq_login__(self, ac_code):
         open_id_dict = self.qq_oauth.open_id(ac_code)
