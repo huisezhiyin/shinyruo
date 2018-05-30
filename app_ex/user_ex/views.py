@@ -25,15 +25,19 @@ class UserViewSet(GenericViewSet):
 
     @action(methods=["POST"], detail=False)
     def qq_login(self, request, *args, **kwargs):
+        callback_encode = "http%3a%2f%2f45.40.196.121%2fusers%2fqq_login%2f&state=qq"
+        url_base = "https://graph.qq.com/oauth2.0/authorize"
+        app_id = "1106888808"
+        url = f"{url_base}?response_type=code&client_id={app_id}&redirect_uri={callback_encode}"
+        return Response(data={"url": url})
+
+    @action(methods=["GET", "POST"], detail=False)
+    def qq_callback(self, request, *args, **kwargs):
         ac_code = request.GET.get("code", None)
         if not ac_code:
             return Response(status=504)
         user = self.__qq_login__(ac_code)
-        return Response({"id": user.id})
-
-    @action(methods=["GET", "POST"], detail=False)
-    def qq_callback(self, request, *args, **kwargs):
-        return Response({"code": 0, "msg": "success"})
+        return Response(data={"id": user.id})
 
     def __qq_login__(self, ac_code):
         open_id_dict = self.qq_oauth.open_id(ac_code)
