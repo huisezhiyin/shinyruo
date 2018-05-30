@@ -2,6 +2,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.http.response import HttpResponseRedirect
 from app_ex.user_ex.models import OAuth, User
 from app_ex.user_ex.utils import QQOAuth
 import binascii
@@ -23,17 +24,16 @@ class UserHtmlViewSet(GenericViewSet):
 class UserViewSet(GenericViewSet):
     qq_oauth = QQOAuth()
 
-    @action(methods=["POST"], detail=False)
+    @action(methods=["GET"], detail=False)
     def qq_login(self, request, *args, **kwargs):
         callback_encode = "http%3a%2f%2f45.40.196.121%2fusers%2fqq_login%2f&state=qq"
         url_base = "https://graph.qq.com/oauth2.0/authorize"
         app_id = self.qq_oauth.app_id
         url = f"{url_base}?response_type=code&client_id={app_id}&redirect_uri={callback_encode}"
-        return Response(data={"url": url})
+        return HttpResponseRedirect(redirect_to=url)
 
     @action(methods=["GET", "POST"], detail=False)
     def qq_callback(self, request, *args, **kwargs):
-        return Response(status=200)
         ac_code = request.GET.get("code", None)
         if not ac_code:
             return Response(status=504)
