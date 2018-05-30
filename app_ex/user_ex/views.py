@@ -3,6 +3,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.http.response import HttpResponseRedirect
+from django.contrib.auth import login
 from app_ex.user_ex.models import OAuth, User
 from app_ex.user_ex.utils import QQOAuth
 import binascii
@@ -40,7 +41,8 @@ class UserViewSet(GenericViewSet):
         if not ac_code:
             return Response(status=504)
         user = self.__qq_login__(ac_code)
-        return Response(data={"id": user.id})
+        login(request, user)
+        return Response(data={"code": 0, "msg": "success"})
 
     def __qq_login__(self, ac_code):
         open_id_dict = self.qq_oauth.open_id(ac_code)
