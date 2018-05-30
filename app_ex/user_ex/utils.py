@@ -71,7 +71,7 @@ class QQOAuth(object):
         try:
             response_dict = dict(i.split("=") for i in response_token.split("&"))
         except:
-            raise response_token
+            raise exceptions.APIException(response_token)
         access_token = response_dict["access_token"]
         return access_token
 
