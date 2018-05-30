@@ -121,3 +121,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # CELERY_BROKER_URL = ""
+AUTH_USER_MODEL = "user_ex.User"
