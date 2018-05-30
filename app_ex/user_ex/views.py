@@ -27,7 +27,7 @@ class UserViewSet(GenericViewSet):
     def qq_login(self, request, *args, **kwargs):
         callback_encode = "http%3a%2f%2f45.40.196.121%2fusers%2fqq_login%2f&state=qq"
         url_base = "https://graph.qq.com/oauth2.0/authorize"
-        app_id = "1106888808"
+        app_id = self.qq_oauth.app_id
         url = f"{url_base}?response_type=code&client_id={app_id}&redirect_uri={callback_encode}"
         return Response(data={"url": url})
 

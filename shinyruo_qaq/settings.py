@@ -15,8 +15,9 @@ QQ_TOKEN_URL = "https://graph.qq.com/oauth2.0/token"
 QQ_OPEN_ID_URL = "https://graph.qq.com/oauth2.0/me"
 QQ_INFO_URL = "https://graph.qq.com/user/get_user_info"
 
-with open("conf/qq_app_info.cnf") as f:
+with open(f"{BASE_DIR}/conf/qq_app_info.cnf") as f:
     QQ_APP_CONF = json.load(f)
+
 #############################
 # Application definition
 
@@ -115,4 +116,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#CELERY_BROKER_URL = ""
+# CELERY_BROKER_URL = ""
