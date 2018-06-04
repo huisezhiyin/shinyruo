@@ -52,12 +52,8 @@ class UserViewSet(GenericViewSet):
         head_image_url = user_info.get("figureurl_qq_2") or user_info.get("figureurl_qq_1")
         sex = user_info.get("gender")
         nickname = user_info.get("nickname")
-        if sex == u"男":
-            sex = 1
-        elif sex == u"女":
-            sex = 2
-        else:
-            sex = 0
+        sex_dict = {"男": 1, "女": 2}
+        sex = sex_dict.get(sex) or 0
         try:
             oauth = OAuth.objects.get(platform=OAuth.QQ, open_id=open_id)
             user = oauth.user
