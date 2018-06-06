@@ -13,12 +13,10 @@
 </head>
 
 <style>
-
 </style>
 
 <body>
 <div id="app" class="container-fluid">
-
     <ul class="nav nav-pills nav-justified">
         <li id="lottery" role="presentation" @click="navigate($event)" :class="{active: active_dict['lottery']}"
         ><a href="#">活动信息</a></li>
@@ -27,6 +25,15 @@
         <li id="info" role="presentation" @click="navigate($event)" :class="{active: active_dict['info']}"><a href="#">个人信息</a>
         </li>
     </ul>
+    <div id="lottery_home" v-if="home_div==='lottery'">
+        lottery
+    </div>
+    <div id="win_home" v-if="home_div==='win'">
+        win
+    </div>
+    <div id="info_home" v-if="home_div==='info'">
+        info
+    </div>
 </div>
 </body>
 
@@ -34,8 +41,8 @@
     new Vue({
         el: '#app',
         data: {
-            message: "someone",
-            active_dict: {"lottery": true, "win": false, "info": false}
+            active_dict: {"lottery": true, "win": false, "info": false},
+            home_div: "lottery"
         },
         methods: {
             navigate: function (event) {
@@ -45,7 +52,8 @@
                     active_dict[keys] = false
                 });
                 this.active_dict = active_dict;
-                this.active_dict[event_id] = true
+                this.active_dict[event_id] = true;
+                this.home_div = event_id;
             }
         }
     })
