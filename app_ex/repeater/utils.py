@@ -17,3 +17,4 @@ def random_number(max_, min_, num):
     }
     r = requests.post(url="https://api.random.org/json-rpc/1/invoke", json=data)
     return r.json()["result"]["random"]["data"]
+

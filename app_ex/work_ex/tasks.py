@@ -1,0 +1,1 @@
+from shinyruo_qaq.celery import app
