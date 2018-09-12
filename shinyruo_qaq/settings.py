@@ -15,10 +15,12 @@ QQ_TOKEN_URL = "https://graph.qq.com/oauth2.0/token"
 QQ_OPEN_ID_URL = "https://graph.qq.com/oauth2.0/me"
 QQ_INFO_URL = "https://graph.qq.com/user/get_user_info"
 
-with open("conf/qq_app_info.cnf") as f:
+with open(f"{BASE_DIR}/conf/qq_app_info.cnf") as f:
     QQ_APP_CONF = json.load(f)
+
 #############################
-# Application definition
+
+AUTH_USER_MODEL = 'user_ex.User'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -27,14 +29,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'app_ex.user_ex',
     'app_ex.work_ex',
     'app_ex.bulin',
+    'app_ex.repeater',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 20,
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+
 }
 
 MIDDLEWARE = [
@@ -115,4 +123,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#CELERY_BROKER_URL = ""
+# CELERY_BROKER_URL = ""

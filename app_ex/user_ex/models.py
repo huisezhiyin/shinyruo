@@ -1,8 +1,8 @@
 from django.contrib.auth.models import AbstractUser, Group
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import BaseUserManager
-from django.db import models
 from django.conf import settings
+from django.db import models
 import datetime
 import binascii
 import os
@@ -98,7 +98,8 @@ class Token(models.Model):
             self.expired_time = datetime.datetime.now() + datetime.timedelta(days=60)
         return super(Token, self).save(*args, **kwargs)
 
-    def generate_key(self):
+    @staticmethod
+    def generate_key():
         return binascii.hexlify(os.urandom(20)).decode()
 
     def __str__(self):
@@ -106,6 +107,7 @@ class Token(models.Model):
 
 
 class UserReceiptProfile(models.Model):
+    # 这是啥？
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     remark = models.TextField(default="")
     created_time = models.DateTimeField(auto_now_add=True)

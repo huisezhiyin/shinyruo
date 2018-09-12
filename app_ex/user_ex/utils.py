@@ -61,13 +61,13 @@ class QQOAuth(object):
     app_id = app_conf["app_id"]
     app_key = app_conf["app_key"]
     # todo:此处到时候需要改成域名
-    token_callback = "http://45.40.196.121/users/qq_login/"
+    token_callback = "https://shinyruoqaq.cn/users/qq_callback"
     grant_type = "authorization_code"
 
     def token(self, ac_code):
         url_token = "{0}?client_id={1}&client_secret={2}&code={3}&grant_type={4}&redirect_uri={5}".format(
             self.qq_token_url, self.app_id, self.app_key, ac_code, self.grant_type, self.token_callback, )
-        response_token = requests.get(url_token).content
+        response_token = requests.get(url_token).text
         response_dict = dict(i.split("=") for i in response_token.split("&"))
         access_token = response_dict["access_token"]
         return access_token
@@ -75,7 +75,7 @@ class QQOAuth(object):
     def open_id(self, ac_code):
         access_token = self.token(ac_code)
         url_me = "{0}?access_token={1}".format(self.qq_open_id_url, access_token)
-        response_open_id = requests.get(url_me).content
+        response_open_id = requests.get(url_me).text
         open_id_dict = json.loads(re.search(r'callback\((.+?)\)', response_open_id).group(1))
         open_id = open_id_dict["openid"]
         return {"open_id": open_id, "access_token": access_token}
