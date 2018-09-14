@@ -1,4 +1,5 @@
 import json
+import redis
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,7 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    # 'django.contrbr.staticfiles',
     'rest_framework',
     'app_ex.user_ex',
     'app_ex.work_ex',
@@ -124,3 +125,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # CELERY_BROKER_URL = ""
+
+pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
+LOCAL_REDIS = redis.Redis(connection_pool=pool)

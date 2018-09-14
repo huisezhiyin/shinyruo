@@ -7,6 +7,7 @@ from app_ex.repeater.utils import ShinyRuoPageNumberViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.http import HttpResponse
+from django.conf import settings
 import datetime
 
 
@@ -73,7 +74,6 @@ class LotteryViewSet(ShinyRuoPageNumberViewSet):
         queryset = WinningInfo.objects.filter(lottery=instance)
         return self.page_response(queryset, WinningInfoSerializer)
 
-    # todo:参与抽奖 将所有参与抽奖的用户汇集到一起
     @action(detail=True, methods=["GET"])
     def participation(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -82,6 +82,6 @@ class LotteryViewSet(ShinyRuoPageNumberViewSet):
         user = request.user
         if not user:
             return Response(status=403)
-        instance.participant.add(user)
-        instance.save()
+        key = f"lottery:{instance.id}"
+        settings.LOCAL_REDIS.sadd(key, user.id)
         return Response({"code": 0, "msg": "参与成功，请等待开奖"})

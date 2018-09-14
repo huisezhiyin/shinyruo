@@ -11,8 +11,6 @@ class Lottery(models.Model):
     sponsor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # 是否匿名
     anonymous = models.BooleanField(default=False)
-    # 参与者
-    participant = models.ManyToManyField(settings.AUTH_USER_MODEL)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     ended = models.BooleanField(default=False)
