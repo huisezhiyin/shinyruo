@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     # 'django.contrbr.staticfiles',
     'rest_framework',
+    'django_celery_results',
     'app_ex.user_ex',
     'app_ex.work_ex',
     'app_ex.bulin',
@@ -128,3 +129,16 @@ STATIC_URL = '/static/'
 
 pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
 LOCAL_REDIS = redis.Redis(connection_pool=pool)
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/1"
+CELERY_RESULT_BACKEND = 'django-cache'

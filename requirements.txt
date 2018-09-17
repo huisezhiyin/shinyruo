@@ -9,3 +9,4 @@ djangorestframework
 django-filter
 requests
 ipython
+django-celery-results
