@@ -54,6 +54,7 @@ class UserViewSet(GenericViewSet):
         nickname = user_info.get("nickname")
         sex_dict = {"男": 1, "女": 2}
         sex = sex_dict.get(sex) or 0
+
         try:
             oauth = OAuth.objects.get(platform=OAuth.QQ, open_id=open_id)
             user = oauth.user
