@@ -65,8 +65,8 @@ class QQOAuth(object):
     grant_type = "authorization_code"
 
     def token(self, ac_code):
-        url_token = "{0}?client_id={1}&client_secret={2}&code={3}&grant_type={4}&redirect_uri={5}".format(
-            self.qq_token_url, self.app_id, self.app_key, ac_code, self.grant_type, self.token_callback, )
+        url_token = f"{self.qq_token_url}?client_id={self.app_id}&client_secret={self.app_key}&code={ac_code}" \
+                    f"&grant_type={self.grant_type}&redirect_uri={self.token_callback}"
         response_token = requests.get(url_token).text
         response_dict = dict(i.split("=") for i in response_token.split("&"))
         access_token = response_dict["access_token"]
@@ -74,14 +74,13 @@ class QQOAuth(object):
 
     def open_id(self, ac_code):
         access_token = self.token(ac_code)
-        url_me = "{0}?access_token={1}".format(self.qq_open_id_url, access_token)
+        url_me = f"{self.qq_open_id_url}?access_token={access_token}"
         response_open_id = requests.get(url_me).text
         open_id_dict = json.loads(re.search(r'callback\((.+?)\)', response_open_id).group(1))
         open_id = open_id_dict["openid"]
         return {"open_id": open_id, "access_token": access_token}
 
     def user_info(self, access_token, open_id):
-        url_info = "{0}?access_token={1}&oauth_consumer_key={2}&openid={3}".format(
-            self.qq_info_url, access_token, self.app_id, open_id)
+        url_info = f"{self.qq_info_url}?access_token={access_token}&oauth_consumer_key={self.app_id}&openid={open_id}"
         response_info = requests.get(url_info).json()
         return response_info

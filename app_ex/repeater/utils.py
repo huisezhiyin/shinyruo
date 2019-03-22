@@ -5,6 +5,7 @@ import requests
 
 class RandomNumber(object):
     _instance = None
+
     # 这里这个单例模式其实没那么需要
     def __new__(cls, *args, **kwargs):
         if not cls._instance:
